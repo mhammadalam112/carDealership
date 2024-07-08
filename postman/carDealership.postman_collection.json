@@ -1,0 +1,260 @@
+{
+	"info": {
+		"_postman_id": "723f5c45-7be8-4184-b903-e7cd01e8774e",
+		"name": "carDealership",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "19620616"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"testuser4\",\r\n    \"password\":\"test@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "getByUsername",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/user/testuser3"
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"testuser4\",\r\n    \"password\":\"test@123\",\r\n    \"role\":\"Dealer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/user/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cars",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyMiIsImlhdCI6MTcyMDQ4MDI2NSwiZXhwIjoxNzIwNDgzODY1fQ.gGPEWdBD_BcFGjvvJBA7Aq9W78s2q60vzLVJBt-s3Cc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "make",
+									"value": "Toyota",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "Corolla",
+									"type": "text"
+								},
+								{
+									"key": "year",
+									"value": "2007",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "1850000",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "karachi",
+									"type": "text"
+								},
+								{
+									"key": "transmission",
+									"value": "manual",
+									"type": "text"
+								},
+								{
+									"key": "mileage",
+									"value": "158000kms",
+									"type": "text"
+								},
+								{
+									"key": "color",
+									"value": "silver",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/mhamm/Pictures/corolla_2007.jpg.webp"
+								}
+							]
+						},
+						"url": "http://127.0.0.1:8000/cars/"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyMiIsImlhdCI6MTcyMDQ3MDMzMiwiZXhwIjoxNzIwNDczOTMyfQ.TDtNbSqMKDV-W78oG1iKfET1Hu_P7RzZZvSp9JYy4Z8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "make",
+									"value": "Honda",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "City",
+									"type": "text"
+								},
+								{
+									"key": "year",
+									"value": "2017",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "2950000",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "karachi",
+									"type": "text"
+								},
+								{
+									"key": "transmission",
+									"value": "automatic",
+									"type": "text"
+								},
+								{
+									"key": "mileage",
+									"value": "158000kms",
+									"type": "text"
+								},
+								{
+									"key": "color",
+									"value": "silver",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": "http://127.0.0.1:8000/cars/3"
+					},
+					"response": []
+				},
+				{
+					"name": "search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyMSIsImlhdCI6MTcyMDQ2OTUyOCwiZXhwIjoxNzIwNDczMTI4fQ.dZCNEZ50kIKSalTnmoA_evCodSIcDA9-gGvtcl-vy0U",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/cars/search?model=Alto",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"cars",
+								"search"
+							],
+							"query": [
+								{
+									"key": "model",
+									"value": "Alto"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllCars",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyMSIsImlhdCI6MTcyMDQ2OTUyOCwiZXhwIjoxNzIwNDczMTI4fQ.dZCNEZ50kIKSalTnmoA_evCodSIcDA9-gGvtcl-vy0U",
+								"type": "text"
+							}
+						],
+						"url": "http://127.0.0.1:8000/cars/"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCar",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyMiIsImlhdCI6MTcyMDQ3MDMzMiwiZXhwIjoxNzIwNDczOTMyfQ.TDtNbSqMKDV-W78oG1iKfET1Hu_P7RzZZvSp9JYy4Z8",
+								"type": "text"
+							}
+						],
+						"url": "http://127.0.0.1:8000/cars/33"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

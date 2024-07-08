@@ -9,22 +9,14 @@ import { User } from './user/entity/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { CarsModule } from './cars/cars.module';
 import { Car } from './cars/entity/car.entity';
+import { dataSourceOptions } from 'database/data-source';
 
 @Module({
   imports: [UserModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TypeOrmModule.forRoot({
-    type: 'postgres',
-    host: process.env.DATABASE_HOST,
-    port: parseInt(process.env.DATABASE_PORT, 10),
-    username: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASS,
-    database: process.env.DATABASE_NAME,
-    entities: [User,Car],
-    synchronize: true,
-  }),
+    TypeOrmModule.forRoot(dataSourceOptions),
     AuthModule,
     CarsModule,],
   controllers: [AppController],

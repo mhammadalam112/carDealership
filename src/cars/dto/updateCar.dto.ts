@@ -9,11 +9,9 @@ export class updateCarDto {
     @IsOptional()
     model: string;
   
-    @IsNumber()
     @IsOptional()
     year: number;
 
-    @IsNumber()
     @IsOptional()
     price: number;
   

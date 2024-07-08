@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Car } from './entity/car.entity';
-import { createCarDto } from './dto/createCar.dto';
 import { updateCarDto } from './dto/updateCar.dto';
 import { searchCarDto } from './dto/searchCar.dto';
+import { CreateCarDto } from './dto/createCarZod.dto';
+import { createCarDto } from './dto/createCar.dto';
 
 @Injectable()
 export class CarsService {
@@ -18,20 +19,38 @@ export class CarsService {
     }
 
     async findAll(): Promise<Car[]> {
-        return await this.carsRepository.find();
+        const rows = await this.carsRepository.find();
+
+        if(rows.length < 1){
+            throw new HttpException("No cars to show",HttpStatus.NOT_FOUND);
+        }
+        return rows;
+
     }
 
 
     async update(id: number, car: updateCarDto): Promise<any> {
-        return await this.carsRepository.update(id, car);
+        const rows = await this.carsRepository.update(id, car);
+
+        if(rows.affected == 0){
+            throw new HttpException("No car exists with the given id",HttpStatus.NOT_FOUND);
+        }
+
+        return rows;
     }
 
     async delete(id: number): Promise<any> {
-        return await this.carsRepository.delete(id);
+        const rows =  await this.carsRepository.delete(id);
+
+        if(rows.affected == 0){
+            throw new HttpException("No car exists with the given id",HttpStatus.NOT_FOUND);
+        }
+
+        return rows;
     }
 
     async searchCars(query : searchCarDto) : Promise<Car[]> {
-        return this.carsRepository.find({
+        const rows = await this.carsRepository.find({
             where: {
               make: query.make ? query.make : undefined,
               model: query.model ? query.model : undefined,
@@ -39,6 +58,11 @@ export class CarsService {
               location: query.location ? query.location : undefined,
             },
           });
+
+          if(rows.length < 1){
+            throw new HttpException("No cars exist with the given criteria",HttpStatus.NOT_FOUND);
+        }
+        return rows;
     } 
 
 }

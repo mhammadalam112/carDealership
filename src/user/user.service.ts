@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { createUserDto } from './dto/createUser.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entity/user.entity';
@@ -14,7 +14,12 @@ export class UserService {
       ) {}
 
     async getUser() :  Promise<User[]> {
-        return await this.usersRepository.find();
+        const rows = await this.usersRepository.find();
+
+        if(rows.length < 1){
+            throw new HttpException("No users to show",HttpStatus.NOT_FOUND);
+        }
+        return rows;
     }
 
     async createUser(body: createUserDto) :  Promise<User> {
@@ -29,7 +34,12 @@ export class UserService {
         
         //return await this.usersRepository.findOne({ where: {username : username} });
 
-        return await this.usersRepository.findOneBy({ username : username })
+        const rows = await this.usersRepository.findOneBy({ username : username });
+
+        if(rows == null || undefined){
+            throw new HttpException("No user exists with the given username",HttpStatus.NOT_FOUND);
+        }
+        return rows;
     }
 
 

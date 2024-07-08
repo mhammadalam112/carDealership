@@ -18,7 +18,7 @@ export class rolesGuard implements CanActivate{
         if(req.user){
             const { username } = req.user;
 
-            console .log(username);
+            console.log(username);
 
             const user = await this.userService.getUserByUsername(username);
 
