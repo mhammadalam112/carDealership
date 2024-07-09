@@ -7,7 +7,7 @@ import { createCarSchema } from './cars/dto/createCarZod.dto';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true , transform: true }));
+  //app.useGlobalPipes(new ValidationPipe({ whitelist: true , transform: true }));
   //app.useGlobalPipes(new ZodValidationPipe(createCarSchema));
   app.useGlobalFilters(new GlobalExceptionFilter());
   await app.listen(8000);

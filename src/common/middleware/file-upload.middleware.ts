@@ -1,38 +1,30 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
-import { Observable, from } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Request, Response, NextFunction } from 'express';
 import * as multer from 'multer';
-import { extname } from 'path';
 
 @Injectable()
-export class FileUploadInterceptor implements NestInterceptor {
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const ctx = context.switchToHttp();
-    const request = ctx.getRequest();
-    const response = ctx.getResponse();
-
-    const storage = multer.diskStorage({
+export class FileUploadMiddleware implements NestMiddleware {
+  private upload = multer({
+    storage: multer.diskStorage({
       destination: './uploads',
       filename: (req, file, cb) => {
         const uniqueSuffix = Date.now();
-        cb(null, uniqueSuffix + '_' + file.originalname)
+        cb(null, uniqueSuffix + '-' + file.originalname);
       },
+    }),
+  }).single('image');
+
+  use(req: Request, res: Response, next: NextFunction) {
+    console.log("inside middlewareee");
+    this.upload(req, res, (err) => {
+      if (err) {
+        return next(err);
+      }
+      if (req.file) {
+        
+        req.body.image = req.file.filename;
+      }
+      next();
     });
-
-    const upload = multer({ storage }).single('image');
-
-    return from(
-      new Promise<void>((resolve, reject) => {
-        upload(request, response, (err) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve();
-          }
-        });
-      })
-    ).pipe(
-      switchMap(() => next.handle())
-    );
   }
 }

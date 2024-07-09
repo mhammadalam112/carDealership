@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { Car } from './entity/car.entity';
 import { updateCarDto } from './dto/updateCar.dto';
 import { searchCarDto } from './dto/searchCar.dto';
-import { CreateCarDto } from './dto/createCarZod.dto';
 import { createCarDto } from './dto/createCar.dto';
 
 @Injectable()

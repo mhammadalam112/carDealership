@@ -10,6 +10,8 @@ import { AuthModule } from './auth/auth.module';
 import { CarsModule } from './cars/cars.module';
 import { Car } from './cars/entity/car.entity';
 import { dataSourceOptions } from 'database/data-source';
+import { ZodValidationPipe } from './common/pipes/zodValidation.pipe';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [UserModule,

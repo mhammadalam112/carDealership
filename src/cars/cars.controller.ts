@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors, UsePipes } from '@nestjs/common';
 import { CarsService } from './cars.service';
 import { updateCarDto } from './dto/updateCar.dto';
 import { searchCarDto } from './dto/searchCar.dto';
@@ -6,12 +6,10 @@ import { Role } from 'src/auth/role.enum';
 import { Roles } from 'src/auth/roles.decorator';
 import { rolesGuard } from 'src/auth/roles.guard';
 import { AuthGuard } from '@nestjs/passport';
-import { diskStorage } from 'multer';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { extname } from 'path';
-import { CreateCarDto } from './dto/createCarZod.dto';
+import { createCarSchema } from './dto/createCarZod.dto';
 import { createCarDto } from './dto/createCar.dto';
-import { FileUploadInterceptor } from 'src/common/middleware/file-upload.middleware';
+import { ZodValidationPipe } from 'src/common/pipes/zodValidation.pipe';
+import { updateCarSchema } from './dto/updateCarZod.dto';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('cars')
@@ -21,11 +19,8 @@ export class CarsController {
     @Post()
     @UseGuards(rolesGuard)
     @Roles(Role.Dealer)
-    @UseInterceptors(FileUploadInterceptor)
-    create(@Body() car: createCarDto, @UploadedFile() file?: Express.Multer.File) {
-        if (file) {
-            car.image = file.filename;
-        }
+    @UsePipes(new ZodValidationPipe(createCarSchema))
+    create(@Body() car: createCarDto) {
         console.log("car",car);
         return this.carsService.create(car);
     }
@@ -48,11 +43,8 @@ export class CarsController {
     @Patch(':id')
     @UseGuards(rolesGuard)
     @Roles(Role.Dealer)
-    @UseInterceptors(FileUploadInterceptor)
-    update(@Param('id') id: number, @Body() car: updateCarDto, @UploadedFile() file?: Express.Multer.File) {
-        if (file) {
-            car.image = file.filename;
-        }
+    @UsePipes(new ZodValidationPipe(updateCarSchema))
+    update(@Body() car: updateCarDto, @Param('id') id: number, ) {
         return this.carsService.update(id, car);
     }
 
