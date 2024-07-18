@@ -10,6 +10,6 @@ async function bootstrap() {
   //app.useGlobalPipes(new ValidationPipe({ whitelist: true , transform: true }));
   //app.useGlobalPipes(new ZodValidationPipe(createCarSchema));
   app.useGlobalFilters(new GlobalExceptionFilter());
-  await app.listen(8000);
+  await app.listen(3000);
 }
 bootstrap();
